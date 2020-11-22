@@ -11,23 +11,53 @@ var config = {
   };
   firebase.initializeApp(config);
 var rootRef = firebase.database().ref().child("products");
+var setUp = firebase.database().ref().child("settings");
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    // User is signed in.
-
+    // User is signed in
     document.getElementById("user_div").style.display = "block";
     document.getElementById("login_div").style.display = "none";
     document.getElementById("update").style.display = "none";
+    
+    // show all settings data and update it
+    setUp.on("child_added", snap => {
+      var address = snap.child("Address").val();
+      var copyright = snap.child("Copyright").val();
+      var email = snap.child("Email").val();
+      var fullAddress = snap.child("FullAddress").val();
+      var heading = snap.child("Heading").val();
+      var mobile = snap.child("Mobile").val();
+      var tittle = snap.child("Tittle").val();
+  
+      $("#set_tings").append("<tr id='"+snap.key+"'><td>Tittle</td><td>" + tittle + 
+      "</td><td><button onclick=setttingUpdate('" +
+      snap.key+'\',\''+'Tittle'+"')>Update Tittle</button></td><td>"+'</td></tr>'
+      +"<tr id='"+snap.key+"'><td>Heading</td><td>" + heading + 
+      "</td><td><button onclick=setttingUpdate('" +
+      snap.key+'\',\''+'Heading'+"')>Update Heading</button></td><td>" +'</td></tr>'
+      +"<tr id='"+snap.key+"'><td>Address</td><td>" + address + 
+      "</td><td><button onclick=setttingUpdate('" +
+      snap.key+'\',\''+'Address'+"')>Update Address</button></td><td>" +'</td></tr>'
+      +"<tr id='"+snap.key+"'><td>Full Address</td><td>" + fullAddress + 
+      "</td><td><button onclick=setttingUpdate('" +
+      snap.key+'\',\''+'FullAddress'+"')>Update it</button></td><td>" +'</td></tr>'
+      +"<tr id='"+snap.key+"'><td>Email</td><td>" + email + 
+      "</td><td><button onclick=setttingUpdate('" +
+      snap.key+'\',\''+'Email'+"')>Update Email</button></td><td>" +'</td></tr>'
+      +"<tr id='"+snap.key+"'><td>Mobile No.</td><td>" + mobile + 
+      "</td><td><button onclick=setttingUpdate('" +
+      snap.key+'\',\''+'Mobile'+"')>Update Mobile</button></td><td>" +'</td></tr>'
+      +"<tr id='"+snap.key+"'><td>CopyRight</td><td>" + copyright + 
+      "</td><td><button onclick=setttingUpdate('" +
+      snap.key+'\',\''+'Copyright'+"')>Update it</button></td><td>" +'</td></tr>');
+      });
 
     var user = firebase.auth().currentUser;
     const productId = document.getElementById('id_field');
     const desp = document.getElementById('product_field');
     const img = document.getElementById('image_field');
     const newProduct = document.getElementById('addProduct');
-
-    const database = firebase.database();
-    const roofRef = database.ref('products');
 
     newProduct.addEventListener('click', (e) => { // write data into Firebase
       e.preventDefault();
@@ -141,6 +171,28 @@ function deleteData(key) {
       return false;
   } else {
     //disapper the alert box
+  }
+}
+
+function setttingUpdate(key, field_name){
+  var field_tittle = "Update "+field_name;
+
+  var newValue = prompt(field_tittle, "");
+  if (newValue != "") {
+    // update the field with new value
+    setUp.child(key)
+    .update({ [field_name]: newValue })
+    .then(function () {
+      alert("Yeah Updated!!");
+      location.reload();  //reload to load all the data
+      return false;
+    })
+    .catch(function (error) {
+      console.log('Update failed: ' + error.message);
+    });
+  } else {
+    alert("The Field must be filled out");
+      return false;
   }
 }
 
