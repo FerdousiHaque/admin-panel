@@ -107,7 +107,7 @@ function updateData(key) {
 
   updatePro.addEventListener('click', (e) => { // Update data into Firebase
     e.preventDefault();
-    if(productUp.value == "" && imageUp.value == ""){
+    if(productUp.value == "" || imageUp.value == ""){
       alert("All field must be filled out");
       return false;
     }
