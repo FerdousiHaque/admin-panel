@@ -178,7 +178,10 @@ function setttingUpdate(key, field_name){
   var field_tittle = "Update "+field_name;
 
   var newValue = prompt(field_tittle, "");
-  if (newValue != null) {
+  if (newValue == null || newValue == "") {
+    alert("The Field must be filled out");
+      return false;
+  } else {
     // update the field with new value
     setUp.child(key)
     .update({ [field_name]: newValue })
@@ -190,9 +193,6 @@ function setttingUpdate(key, field_name){
     .catch(function (error) {
       console.log('Update failed: ' + error.message);
     });
-  } else {
-    alert("The Field must be filled out");
-      return false;
   }
 }
 
