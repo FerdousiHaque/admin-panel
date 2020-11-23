@@ -178,7 +178,7 @@ function setttingUpdate(key, field_name){
   var field_tittle = "Update "+field_name;
 
   var newValue = prompt(field_tittle, "");
-  if (newValue != "") {
+  if (newValue != null) {
     // update the field with new value
     setUp.child(key)
     .update({ [field_name]: newValue })
