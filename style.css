@@ -16,14 +16,14 @@ input, button {
   margin: 0px auto;
   margin-top: 150px;
   padding: 20px;
-  display: none;
+
 }
 .loggedin-div {
   width: 50%;
   margin: 0px auto;
   margin-top: 50px;
   padding: 20px;
-  display: none;
+
 }
 input {
   display: block;
@@ -61,4 +61,7 @@ input {
   color: #5d8ffc;
   border: 1px solid #5d8ffc;
   cursor: pointer;
+}
+.update_div {
+  display: none;
 }
